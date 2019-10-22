@@ -1,0 +1,16 @@
+#pan-zoom-frame {
+	height: 70%;
+	width: 70%;
+
+	position: absolute;
+	top: 15%;
+	left: 15%;
+
+	overflow: hidden;
+}
+
+.layer {
+	transform-origin: top left;
+
+	background-color: brown;
+}
