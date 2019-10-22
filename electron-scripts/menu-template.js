@@ -1,41 +1,60 @@
 const FileController = require('./file-controller');
 
+let openFile = function (win) {
+	FileController.openDialog(
+		win,
+		{
+			'title': 'Select file'
+		}
+	).then((file) => {
+		if (file != null) {
+			// MenuCtrl.enableItemById('saveItem');
+			win.webContents.send('file-open', file);
+		}
+	});
+};
+
+let saveFile = function (win) {
+	FileController.saveDialog(
+		win,
+		{
+			'title': 'Save file',
+			'filters': [{
+				name: 'Picture Object for Editing',
+				extensions: ['poe']
+			}]
+		}
+	).then((file) => {
+		if (file != null) {
+			win.webContents.send('save-file', file);
+		}
+	});
+};
+
 module.exports = (currWindow) => {
 	return [
-		...(process.platform === 'darwin' ? [{
-			label: 'label',
-			submenu: [
-				{ role: 'about' },
-				{ type: 'separator' },
-				{ role: 'services' },
-				{ type: 'separator' },
-				{ role: 'hide' },
-				{ role: 'hideothers' },
-				{ role: 'unhide' },
-				{ type: 'separator' },
-				{ role: 'quit' }
-			]
-		}] : []),
 		{
 			label: 'File',
+			role: 'filemenu',
 			submenu: [
-				{ role: 'quit' },
 				{
 					label: 'Open File',
+					role: 'open',
 					accelerator: 'CmdOrCtrl+O',
 					click () {
-						FileController.openDialog(
-							currWindow,
-							{
-								'title': 'Select file'
-							}
-						).then((file) => {
-							if (file != null) {
-								currWindow.webContents.send('file-open', file);
-							}
-						});
+						openFile(currWindow);
 					}
-				}
+				}, {
+					label: 'Save File',
+					accelerator: 'CmdOrCtrl+S',
+					id: 'saveItem',
+					role: 'save',
+					click () {
+						saveFile(currWindow);
+					}
+				},
+				{ type: 'separator' },
+				{ role: 'quit' }
 			]
 		}
 	];
