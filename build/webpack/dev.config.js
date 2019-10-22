@@ -30,7 +30,7 @@ module.exports = {
 	},
 
 	plugins: [],
-	entry: './www/scripts/main.js',
+	entry: './www/scripts/driver.js',
 
 	output: {
 		filename: 'final-bundle.js',

@@ -1,6 +1,6 @@
 const electron = require('electron');
-const { app, BrowserWindow, Menu } = electron;
-const menuTemplate = require('./electron-scripts/menu-template');
+const { app, BrowserWindow } = electron;
+const MenuCtrl = require('./electron-scripts/menu-controller');
 
 const path = require('path');
 
@@ -21,10 +21,11 @@ app.on('ready', () => {
 	mainWindow.loadURL(`file://${__dirname}/dist/www/index.html`);
 
 	mainWindow.toggleDevTools();
-	mainWindow.setMenu(Menu.buildFromTemplate(menuTemplate(mainWindow)));
 
 	mainWindow.on('closed', () => {
 		mainWindow = null;
 		process.exit(0);
 	});
+
+	MenuCtrl.init(mainWindow);
 });
