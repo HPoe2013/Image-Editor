@@ -8,6 +8,7 @@ node_modules/.bin/webpack --config ./build/webpack/dev.config.js;
 echo "";
 echo "Copying other files to dist...";
 cp ./www/index.html ./dist/www/index.html;
+cp -r ./www/styles	./dist/www/styles
 
 echo "";
 NOW=$(date +"%T");
