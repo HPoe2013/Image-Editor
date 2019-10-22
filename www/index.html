@@ -1,9 +1,26 @@
 <html>
 <head>
 	<title>Image Editor</title>
+
+	<link rel="stylesheet" type="text/css" href="./styles/main.css" />
+	<link rel="stylesheet" type="text/css" href="./styles/editor.css" />
+
 	<script src='./scripts/final-bundle.js'></script>
 </head>
 <body>
 	<h1>Hello World!</h1>
+
+	<div id='welcome' class='pane'>
+		Main window.
+	</div>
+
+	<div id='editor' class='pane hidden'>
+		<div id='pan-zoom-frame'>
+			<canvas data-index='0' class='layer'></canvas>
+		</div>
+		<div id='scale-display'>
+			Scale: <span id='scale'></span>
+		</div>
+	</div>
 </body>
 </html>
