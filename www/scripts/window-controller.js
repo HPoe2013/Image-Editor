@@ -30,10 +30,16 @@ export default new function () {
 		_isReady.call(this).then(() => {
 			this._welcomePane.classList.add('hidden');
 			this._editorPane.classList.remove('hidden');
-
-			console.log('opening', e);
-
 			this._editor = new EditController(this._editorPane, e.detail.isProj, e.detail.file);
+		});
+	}.bind(this));
+
+	window.addEventListener('new-file', function (e) {
+		_isReady.call(this).then(() => {
+			this._welcomePane.classList.add('hidden');
+			this._editorPane.classList.remove('hidden');
+
+			this._editor = new EditController(this._editorPane, true, null, e.detail);
 		});
 	}.bind(this));
 }();
