@@ -18,6 +18,17 @@ ipcRenderer.on('save-file-named', (evt, file) => {
 	));
 });
 
+ipcRenderer.on('new-file', evt => {
+	window.dispatchEvent(new window.CustomEvent(
+		'new-file', {
+			detail: {
+				height: 500,
+				width: 500
+			}
+		}
+	));
+});
+
 window.addEventListener('save-file', e => {
 	ipcRenderer.send('save-file', e.detail);
 });
