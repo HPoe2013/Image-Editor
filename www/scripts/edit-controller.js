@@ -5,12 +5,26 @@ export default function () {
 
 	this.panZoomCtrl = null;
 
-	let _ctor = function (pane, isProj, file) {
+	let _ctor = function (pane, isProj, file, dims) {
 		this._pane = pane;
 
 		window.addEventListener('save-file-named', _saveFile.bind(this));
 
-		_openFile.call(this, isProj, file);
+		if (isProj && file == null && dims != null) _createFile.call(this, dims);
+		else _openFile.call(this, isProj, file);
+	};
+
+	let _createFile = function (dims) {
+		let canvas = document.querySelector('canvas.layer');
+
+		canvas.height = dims.height;
+		canvas.width = dims.width;
+
+		let zoomFrame = document.getElementById('pan-zoom-frame');
+		this.panZoomCtrl = new PanZoomController(zoomFrame, {
+			height: dims.height,
+			width: dims.width
+		});
 	};
 
 	let _fileOpened = function (img) {
