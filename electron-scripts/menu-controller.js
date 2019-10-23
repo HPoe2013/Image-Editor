@@ -71,4 +71,21 @@ module.exports = new function () {
 		this.enableItemById('saveItem');
 		this._win.webContents.send('new-file');
 	});
+
+	Emitter.on('export-file', () => {
+		FileController.saveDialog(
+			this._win,
+			{
+				'title': 'Save file',
+				'filters': [{
+					name: 'Image File',
+					extensions: ['png']
+				}]
+			}
+		).then((file) => {
+			if (file != null) {
+				this._win.webContents.send('export-file-named', { file, export: true });
+			}
+		});
+	});
 }();
