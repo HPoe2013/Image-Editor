@@ -2,39 +2,62 @@ import PanZoomController from './pan-zoom-controller';
 
 export default function () {
 	this._pane = null;
-	this._file = null;
-
-	this._img = null;
 
 	this.panZoomCtrl = null;
 
-	let _ctor = function (pane, file) {
+	let _ctor = function (pane, isProj, file) {
 		this._pane = pane;
-		this._file = file;
 
-		_openFile.call(this);
+		window.addEventListener('save-file-named', _saveFile.bind(this));
+
+		_openFile.call(this, isProj, file);
 	};
 
-	let _fileOpened = function () {
+	let _fileOpened = function (img) {
 		let canvas = document.querySelector('canvas.layer');
 
-		canvas.height = this._img.height;
-		canvas.width = this._img.width;
+		canvas.height = img.height;
+		canvas.width = img.width;
 
-		canvas.getContext('2d').drawImage(this._img, 0, 0);
+		canvas.getContext('2d').drawImage(img, 0, 0);
 
 		let zoomFrame = document.getElementById('pan-zoom-frame');
 		this.panZoomCtrl = new PanZoomController(zoomFrame, {
-			height: this._img.height,
-			width: this._img.width
+			height: img.height,
+			width: img.width
 		});
 	};
 
-	let _openFile = function () {
-		this._img = new window.Image();
-		this._img.src = this._file;
+	let _openFile = function (isProj, data) {
+		let src = !isProj ? data : data.layers[0];
 
-		this._img.onload = _fileOpened.bind(this);
+		let img = new window.Image();
+		img.src = src;
+
+		img.onload = _fileOpened.bind(this, img);
+	};
+
+	let _saveFile = function (e) {
+		let layers = this._pane.querySelectorAll('canvas.layer');
+		let toWrite = {
+			canvasDim: {},
+			layers: []
+		};
+
+		Array.prototype.forEach.call(layers, layer => {
+			toWrite.canvasDim.height = layer.height;
+			toWrite.canvasDim.width = layer.width;
+			toWrite.layers[layer.dataset.index] = layer.toDataURL();
+		});
+
+		window.dispatchEvent(new window.CustomEvent(
+			'save-file', {
+				detail: {
+					file: e.detail.file,
+					data: toWrite
+				}
+			}
+		));
 	};
 
 	_ctor.apply(this, arguments);
