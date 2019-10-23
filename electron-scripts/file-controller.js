@@ -62,7 +62,22 @@ module.exports = new function () {
 		});
 	};
 
+	this.saveImageURIToFile = function (path, data) {
+		let base64Image = data.split(';base64,').pop();
+
+		return new Promise((resolve, reject) => {
+			fileSys.writeFile(path, base64Image, {encoding: 'base64'}, err => {
+				if (err) reject(err);
+				else resolve();
+			});
+		});
+	};
+
 	ipcMain.on('save-file', (evt, data) => {
-		this.saveFile(data.file, BSON.serialize(data.data));
+		if (path.extname(data.file) === '.poe') {
+			this.saveFile(data.file, BSON.serialize(data.data));
+		} else {
+			this.saveImageURIToFile(data.file, data.data);
+		}
 	});
 }();
