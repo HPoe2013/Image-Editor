@@ -31,7 +31,9 @@ export default new function () {
 			this._welcomePane.classList.add('hidden');
 			this._editorPane.classList.remove('hidden');
 
-			this._editor = new EditController(this._editorPane, e.detail.file);
+			console.log('opening', e);
+
+			this._editor = new EditController(this._editorPane, e.detail.isProj, e.detail.file);
 		});
 	}.bind(this));
 }();
