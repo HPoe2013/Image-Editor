@@ -7,6 +7,15 @@ module.exports = () => {
 			role: 'filemenu',
 			submenu: [
 				{
+					label: 'New Project...',
+					accelerator: 'CmdOrCtrl+N',
+					role: 'new',
+					click () {
+						Emitter.emit('new-file');
+					}
+				},
+				{ type: 'separator' },
+				{
 					label: 'Open File',
 					role: 'open',
 					accelerator: 'CmdOrCtrl+O',
