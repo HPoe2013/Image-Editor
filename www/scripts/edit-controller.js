@@ -1,4 +1,5 @@
 import PanZoomController from './pan-zoom-controller';
+import DrawController from './drawing-controller';
 
 export default function () {
 	this._pane = null;
@@ -52,17 +53,25 @@ export default function () {
 	};
 
 	let _saveFile = function (e) {
-		let layers = this._pane.querySelectorAll('canvas.layer');
-		let toWrite = {
-			canvasDim: {},
-			layers: []
-		};
+		let toWrite = null;
+		if (e.detail.export) {
+			// TODO: Flatten layers
 
-		Array.prototype.forEach.call(layers, layer => {
-			toWrite.canvasDim.height = layer.height;
-			toWrite.canvasDim.width = layer.width;
-			toWrite.layers[layer.dataset.index] = layer.toDataURL();
-		});
+			let layer = this._pane.querySelectorAll('canvas.layer')[0];
+			toWrite = layer.toDataURL();
+		} else {
+			let layers = this._pane.querySelectorAll('canvas.layer');
+			toWrite = {
+				canvasDim: {},
+				layers: []
+			};
+
+			Array.prototype.forEach.call(layers, layer => {
+				toWrite.canvasDim.height = layer.height;
+				toWrite.canvasDim.width = layer.width;
+				toWrite.layers[layer.dataset.index] = layer.toDataURL();
+			});
+		}
 
 		window.dispatchEvent(new window.CustomEvent(
 			'save-file', {
