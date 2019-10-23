@@ -1,37 +1,6 @@
-const FileController = require('./file-controller');
+const Emitter = require('./events');
 
-let openFile = function (win) {
-	FileController.openDialog(
-		win,
-		{
-			'title': 'Select file'
-		}
-	).then((file) => {
-		if (file != null) {
-			// MenuCtrl.enableItemById('saveItem');
-			win.webContents.send('file-open', file);
-		}
-	});
-};
-
-let saveFile = function (win) {
-	FileController.saveDialog(
-		win,
-		{
-			'title': 'Save file',
-			'filters': [{
-				name: 'Picture Object for Editing',
-				extensions: ['poe']
-			}]
-		}
-	).then((file) => {
-		if (file != null) {
-			win.webContents.send('save-file', file);
-		}
-	});
-};
-
-module.exports = (currWindow) => {
+module.exports = () => {
 	return [
 		{
 			label: 'File',
@@ -42,7 +11,7 @@ module.exports = (currWindow) => {
 					role: 'open',
 					accelerator: 'CmdOrCtrl+O',
 					click () {
-						openFile(currWindow);
+						Emitter.emit('open-file');
 					}
 				}, {
 					label: 'Save File',
@@ -50,7 +19,7 @@ module.exports = (currWindow) => {
 					id: 'saveItem',
 					role: 'save',
 					click () {
-						saveFile(currWindow);
+						Emitter.emit('save-file');
 					}
 				},
 				{ type: 'separator' },
