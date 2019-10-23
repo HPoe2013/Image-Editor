@@ -12,5 +12,5 @@
 .layer {
 	transform-origin: top left;
 
-	background-color: brown;
+	background-image: url('../images/alpha.png');
 }
