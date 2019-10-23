@@ -9,6 +9,7 @@ echo "";
 echo "Copying other files to dist...";
 cp ./www/index.html ./dist/www/index.html;
 cp -r ./www/styles	./dist/www/styles
+cp -r ./www/images	./dist/www/images
 
 echo "";
 NOW=$(date +"%T");
