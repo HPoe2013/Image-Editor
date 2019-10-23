@@ -66,4 +66,9 @@ module.exports = new function () {
 			}
 		});
 	});
+
+	Emitter.on('new-file', () => {
+		this.enableItemById('saveItem');
+		this._win.webContents.send('new-file');
+	});
 }();
