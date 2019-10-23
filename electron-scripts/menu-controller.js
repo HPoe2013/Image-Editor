@@ -32,9 +32,15 @@ module.exports = new function () {
 
 	Emitter.on('open-file', () => {
 		FileController.openDialog(
-			this._win,
-			{
-				'title': 'Select file'
+			this._win, {
+				'title': 'Select file',
+				'filters': [{
+					name: 'Picture Object for Editing',
+					extensions: ['poe']
+				}, {
+					name: 'Image File',
+					extensions: ['png', 'jpg']
+				}]
 			}
 		).then((file) => {
 			if (file != null) {
