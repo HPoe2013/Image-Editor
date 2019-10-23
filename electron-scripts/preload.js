@@ -12,7 +12,8 @@ ipcRenderer.on('save-file-named', (evt, file) => {
 	window.dispatchEvent(new window.CustomEvent(
 		'save-file-named', {
 			detail: {
-				file: file
+				file: file,
+				export: false
 			}
 		}
 	));
@@ -26,6 +27,12 @@ ipcRenderer.on('new-file', evt => {
 				width: 500
 			}
 		}
+	));
+});
+
+ipcRenderer.on('export-file-named', (evt, data) => {
+	window.dispatchEvent(new window.CustomEvent(
+		'save-file-named', { detail: data }
 	));
 });
 
