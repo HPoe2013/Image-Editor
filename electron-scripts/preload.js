@@ -1,16 +1,23 @@
 const { ipcRenderer } = require('electron');
 
-ipcRenderer.on('file-open', (event, file) => {
-	ipcRenderer.send('enable', 'saveItem');
+ipcRenderer.on('file-open', (event, data) => {
+	window.dispatchEvent(new window.CustomEvent(
+		'file-open', {
+			detail: data
+		}
+	));
+});
 
-	let evt = new window.CustomEvent(
-		'file-open',
-		{
+ipcRenderer.on('save-file-named', (evt, file) => {
+	window.dispatchEvent(new window.CustomEvent(
+		'save-file-named', {
 			detail: {
-				file
+				file: file
 			}
 		}
-	);
+	));
+});
 
-	window.dispatchEvent(evt);
+window.addEventListener('save-file', e => {
+	ipcRenderer.send('save-file', e.detail);
 });
