@@ -1,0 +1,23 @@
+#toolbar {
+	position: absolute;
+
+	right: 0px;
+	top: 0px;
+}
+
+.tool-icon {
+	height: 50px;
+	width: 50px;
+
+	background-color: blue;
+
+	margin: 5px;
+}
+
+.tool-icon.active {
+	background-color: purple;
+}
+
+.tool-icon:not(.active) {
+	cursor: pointer;
+}
