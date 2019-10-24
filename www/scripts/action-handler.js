@@ -22,9 +22,6 @@ export default function () {
 
 	let _handleMouseDown = function (e) {
 		let tool = Toolbox.getActiveTool();
-
-		console.log('tool', tool, ToolKit[tool]);
-
 		ToolKit[tool].default.mousedown.call(this, e);
 	};
 
