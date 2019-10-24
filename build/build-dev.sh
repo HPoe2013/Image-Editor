@@ -11,7 +11,7 @@ build_toolkit_file () {
 		if [ $(basename "$file") != "toolkit.js" ] ; then
 			filename=$(basename "$file" .js);
 			exStr+="$filename, "
-			echo "const $filename = require('./$filename');" >> ./www/scripts/tools/toolkit.js;
+			echo "import $filename from './$filename';" >> ./www/scripts/tools/toolkit.js;
 		fi
 	done
 
