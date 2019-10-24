@@ -3,6 +3,7 @@
 	<title>Image Editor</title>
 
 	<link rel="stylesheet" type="text/css" href="./styles/main.css" />
+	<link rel="stylesheet" type="text/css" href="./styles/toolbar.css" />
 	<link rel="stylesheet" type="text/css" href="./styles/editor.css" />
 
 	<script src='./scripts/final-bundle.js'></script>
@@ -20,6 +21,17 @@
 		</div>
 		<div id='scale-display'>
 			Scale: <span id='scale'></span>
+		</div>
+	</div>
+
+	<div id='toolbar'>
+		<div id='tools'>
+			<div class='tool-icon' data-tool='pencil'>P</div>
+			<div class='tool-icon' data-tool='eraser'>E</div>
+		</div>
+		<hr />
+		<div id='colors'>
+			<input type='color' id='main' value='#000000' />
 		</div>
 	</div>
 </body>
