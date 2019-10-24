@@ -10,7 +10,7 @@ build_toolkit_file () {
 	for file in ./www/scripts/tools/*; do
 		if [ $(basename "$file") != "toolkit.js" ] ; then
 			filename=$(basename "$file" .js);
-			exStr+="$filename: $filename, "
+			exStr+="$filename, "
 			echo "const $filename = require('./$filename');" >> ./www/scripts/tools/toolkit.js;
 		fi
 	done
