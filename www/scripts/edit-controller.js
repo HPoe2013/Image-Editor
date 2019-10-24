@@ -1,10 +1,9 @@
 import PanZoomController from './pan-zoom-controller';
-import DrawController from './drawing-controller';
+import ActionHandler from './action-handler';
+import LayerController from './layer-controller';
 
 export default function () {
 	this._pane = null;
-
-	this.panZoomCtrl = null;
 
 	let _ctor = function (pane, isProj, file, dims) {
 		this._pane = pane;
@@ -21,11 +20,7 @@ export default function () {
 		canvas.height = dims.height;
 		canvas.width = dims.width;
 
-		let zoomFrame = document.getElementById('pan-zoom-frame');
-		this.panZoomCtrl = new PanZoomController(zoomFrame, {
-			height: dims.height,
-			width: dims.width
-		});
+		_initControllers.call(this, dims.height, dims.width);
 	};
 
 	let _fileOpened = function (img) {
@@ -36,11 +31,19 @@ export default function () {
 
 		canvas.getContext('2d').drawImage(img, 0, 0);
 
+		_initControllers.call(this, img.height, img.width);
+	};
+
+	let _initControllers = function (height, width) {
 		let zoomFrame = document.getElementById('pan-zoom-frame');
-		this.panZoomCtrl = new PanZoomController(zoomFrame, {
-			height: img.height,
-			width: img.width
+		let panZoomCtrl = new PanZoomController(zoomFrame, {
+			height: height,
+			width: width
 		});
+
+		let layerCtrl = new LayerController(zoomFrame);
+
+		this._actionHandler = new ActionHandler(zoomFrame, panZoomCtrl, layerCtrl);
 	};
 
 	let _openFile = function (isProj, data) {

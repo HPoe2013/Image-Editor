@@ -1,4 +1,5 @@
 import EditController from './edit-controller';
+import Toolbox from './toolbox';
 
 export default new function () {
 	this._welcomePane = null;
@@ -31,6 +32,7 @@ export default new function () {
 			this._welcomePane.classList.add('hidden');
 			this._editorPane.classList.remove('hidden');
 			this._editor = new EditController(this._editorPane, e.detail.isProj, e.detail.file);
+			Toolbox.init();
 		});
 	}.bind(this));
 
@@ -40,6 +42,7 @@ export default new function () {
 			this._editorPane.classList.remove('hidden');
 
 			this._editor = new EditController(this._editorPane, true, null, e.detail);
+			Toolbox.init();
 		});
 	}.bind(this));
 }();
