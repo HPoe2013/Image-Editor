@@ -1,12 +1,18 @@
+/** Controller for panning and zooming the layers. */
 export default function () {
-	this._frame = null;
+	this._frame = null;		// The pan-zoom frame to which to bind.
 
-	this._height = null;
-	this._width = null;
+	this._height = null;	// The height of the canvas.
+	this._width = null;		// The width of the canvas.
 
-	this._top = 0;
-	this._left = 0;
+	this._top = 0;			// The current top coordinate of the schematic.
+	this._left = 0;			// The current left coordinate of teh schematic.
 
+	/**
+	 * Constructor for pan-zoom controller.
+	 * @param  {DOM Node} frame The pan zoom frame to control.
+	 * @param  {JSON} dim   The initial dimensions of the image.
+	 */
 	let _ctor = function (frame, dim) {
 		this._frame = frame;
 
@@ -19,6 +25,7 @@ export default function () {
 		window.addEventListener('resize', _resize.bind(this));
 	};
 
+	/** Helper function to recenter layers. */
 	let _recenter = function () {
 		let bounds = this._frame.getBoundingClientRect();
 
@@ -28,6 +35,7 @@ export default function () {
 		_updatePos.call(this);
 	};
 
+	/** Handler for resize event. Scales and re-centers canvas. */
 	let _resize = function () {
 		let bounds = this._frame.getBoundingClientRect();
 
@@ -43,11 +51,16 @@ export default function () {
 		_recenter.call(this);
 	};
 
+	/** Helper function to move layers to the current top and left position. */
 	let _updatePos = function () {
 		this._frame.style.top = this._top + 'px';
 		this._frame.style.left = this._left + 'px';
 	};
 
+	/**
+	 * Helper function to update the scale on the layers.
+	 * @param  {Number} scale The scale value to which to set the layers.
+	 */
 	let _updateScale = function (scale) {
 		let canvases = this._frame.querySelectorAll('canvas.layer');
 		Array.prototype.forEach.call(canvases, (canvas) => {
@@ -57,6 +70,11 @@ export default function () {
 		this._scaleDisplay.innerHTML = scale + '%';
 	};
 
+	/**
+	 * Changes the layer location by the given amounts.
+	 * @param  {[type]} dx The amount to move in the X direction.
+	 * @param  {[type]} dy The amount to move in the Y direction.
+	 */
 	this.pan = function (dx, dy) {
 		this._left += dx;
 		this._top += dy;

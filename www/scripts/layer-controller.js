@@ -1,9 +1,15 @@
+/** Class to control the layer system. */
 export default function () {
-	this._frame = null;
-	this._activeLayer = null;
+	this._frame = null;			// The pan zoom frame in which in the canvases live.
+	this._activeLayer = null;	// The currently active canvas.
 
-	this._nextInd = 1;
+	this._nextInd = 1;			// The index of the next canvas that's created.
 
+	/**
+	 * Constructor for the layer controller.
+	 * @param  {DOM Node} frame The pan-zoom frame for the layer controller.
+	 * @param  {Image[]} data  Optional extra layers to initialize with.
+	 */
 	let _ctor = function (frame, data) {
 		this._frame = frame;
 
@@ -33,6 +39,10 @@ export default function () {
 		}
 	};
 
+	/**
+	 * Adds a new layer to the canvas.
+	 * @param  {Image} img Optional image to render to new layer.
+	 */
 	let _addLayer = function (img) {
 		let newCanvas = document.createElement('canvas');
 		newCanvas.classList.add('layer');
@@ -61,6 +71,10 @@ export default function () {
 		this._nextInd++;
 	};
 
+	/**
+	 * Sets the active layer.
+	 * @param  {Canvas} layer The canvas to set as active.
+	 */
 	let _setActiveLayer = function (layer) {
 		this._activeLayer = layer;
 
@@ -78,6 +92,10 @@ export default function () {
 		activeDisp.classList.add('active');
 	};
 
+	/**
+	 * Gets the currently active canvas.
+	 * @return {Canvas} The currently active canvas.
+	 */
 	this.getActiveCanvas = function () {
 		return this._activeLayer;
 	};
