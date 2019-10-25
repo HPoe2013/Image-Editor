@@ -23,7 +23,7 @@ export default function () {
 		_initControllers.call(this, dims.height, dims.width);
 	};
 
-	let _fileOpened = function (img) {
+	let _fileOpened = function (img, data) {
 		let canvas = document.querySelector('canvas.layer');
 
 		canvas.height = img.height;
@@ -31,37 +31,63 @@ export default function () {
 
 		canvas.getContext('2d').drawImage(img, 0, 0);
 
-		_initControllers.call(this, img.height, img.width);
+		_initControllers.call(this, img.height, img.width, data);
 	};
 
-	let _initControllers = function (height, width) {
+	let _initControllers = function (height, width, data) {
 		let zoomFrame = document.getElementById('pan-zoom-frame');
 		let panZoomCtrl = new PanZoomController(zoomFrame, {
 			height: height,
 			width: width
 		});
 
-		let layerCtrl = new LayerController(zoomFrame);
+		let layerCtrl = new LayerController(zoomFrame, data);
 
 		this._actionHandler = new ActionHandler(zoomFrame, panZoomCtrl, layerCtrl);
 	};
 
 	let _openFile = function (isProj, data) {
-		let src = !isProj ? data : data.layers[0];
+		if (!isProj) {
+			let img = new window.Image();
+			img.src = data;
 
-		let img = new window.Image();
-		img.src = src;
+			img.onload = _fileOpened.bind(this, img);
+		} else {
+			let imgProms = data.layers.map(layer => {
+				return new Promise((resolve, reject) => {
+					let img = new window.Image();
+					img.src = layer;
 
-		img.onload = _fileOpened.bind(this, img);
+					img.onload = () => {
+						resolve(img);
+					};
+				});
+			});
+
+			Promise.all(imgProms).then((imgs) => {
+				_fileOpened.call(this, imgs[0], imgs);
+			});
+		}
 	};
 
 	let _saveFile = function (e) {
 		let toWrite = null;
 		if (e.detail.export) {
-			// TODO: Flatten layers
+			// Flatten layers
+			let layers = this._pane.querySelectorAll('canvas.layer');
+			let outCanvas = document.createElement('canvas');
 
-			let layer = this._pane.querySelectorAll('canvas.layer')[0];
-			toWrite = layer.toDataURL();
+			outCanvas.height = layers[0].height;
+			outCanvas.width = layers[0].width;
+
+			let outContext = outCanvas.getContext('2d');
+
+			for (let i = layers.length - 1; i >= 0; i--) {
+				console.log('layer', layers[i]);
+				outContext.drawImage(layers[i], 0, 0);
+			}
+
+			toWrite = outCanvas.toDataURL();
 		} else {
 			let layers = this._pane.querySelectorAll('canvas.layer');
 			toWrite = {
