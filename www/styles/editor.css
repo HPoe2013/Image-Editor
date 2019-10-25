@@ -11,8 +11,50 @@
 
 .layer {
 	transform-origin: top left;
+
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
 .layer:last-of-type {
 	background-image: url('../images/alpha.png');
+}
+
+
+#layer-controls {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+
+	height: 200px;
+	width: 400px;
+}
+
+#layer-display {
+	position: absolute;
+	left: 0;
+	top: 0;
+
+	height: 90%;
+	width: 400px;
+
+	overflow-y: scroll;
+}
+
+#layer-display .disp-layer {
+	height: 50px;
+	background-color: blue;
+}
+
+#layer-display .disp-layer.active {
+	background-color: purple;
+}
+
+#layer-controls #controls {
+	height: 10%;
+
+	position: absolute;
+	bottom: 0;
+	left: 0;
 }
