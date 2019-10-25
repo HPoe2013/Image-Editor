@@ -1,6 +1,7 @@
 import Toolbox from '../toolbox';
 import DrawController from '../drawing-controller';
 
+/** Set of functions for the pencil tool */
 export default {
 	mousedown: function (e) {
 		this._active = true;

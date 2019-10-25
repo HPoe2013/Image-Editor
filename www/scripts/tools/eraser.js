@@ -1,5 +1,6 @@
 import DrawController from '../drawing-controller';
 
+/** Set of functions for the eraser tool */
 export default {
 	mousedown: function (e) {
 		this._active = true;

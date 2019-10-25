@@ -1,3 +1,4 @@
+/** Set of functions for the panning tool */
 export default {
 	mousedown: function (e) {
 		this._active = true;
