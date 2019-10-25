@@ -47,7 +47,7 @@ export default function () {
 	};
 
 	let _handleMouseMove = function (e) {
-		ToolKit[this._tool].mousemove.call(this, e);
+		if (this._active) ToolKit[this._tool].mousemove.call(this, e);
 	};
 
 	let _handleMouseUp = function (e) {
