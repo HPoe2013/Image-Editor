@@ -11,6 +11,8 @@
 
 .layer {
 	transform-origin: top left;
+}
 
+.layer:last-of-type {
 	background-image: url('../images/alpha.png');
 }
