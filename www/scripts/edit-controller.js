@@ -83,7 +83,6 @@ export default function () {
 			let outContext = outCanvas.getContext('2d');
 
 			for (let i = layers.length - 1; i >= 0; i--) {
-				console.log('layer', layers[i]);
 				outContext.drawImage(layers[i], 0, 0);
 			}
 
