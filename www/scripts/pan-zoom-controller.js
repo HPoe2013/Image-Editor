@@ -46,6 +46,8 @@ export default function () {
 			? bounds.width / this._width
 			: bounds.height / this._height;
 
+		scale = Math.min(scale, 1);
+
 		scale = Math.floor(scale * 100);
 		_updateScale.call(this, scale);
 		_recenter.call(this);
