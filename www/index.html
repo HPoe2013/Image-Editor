@@ -32,7 +32,7 @@
 		</div>
 	</div>
 
-	<div id='toolbar'>
+	<div id='toolbar' class='hidden'>
 		<div id='tools'>
 			<div class='tool-icon' data-tool='pencil'>P</div>
 			<div class='tool-icon' data-tool='eraser'>E</div>
@@ -40,6 +40,13 @@
 		<hr />
 		<div id='colors'>
 			<input type='color' id='main' value='#000000' />
+		</div>
+		<hr />
+		<div id='tool-params' class='hidden'>
+			<div data-prop='stroke' class='prop'>
+				<span>Stroke:</span>
+				<input type='number' min='1'></input>
+			</div>
 		</div>
 	</div>
 </body>
