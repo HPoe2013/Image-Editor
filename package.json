@@ -5,8 +5,9 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node_modules/.bin/electron .",
-    "build-dev": "bash ./build/build-dev.sh"
+    "start": "./node_modules/.bin/electron .",
+    "build-dev": "bash ./build/build-dev.sh",
+	"wbuild-dev": "cd build && win-build-dev.bat"
   },
   "author": "Quentin 'Poe' Caffero",
   "license": "ISC",
