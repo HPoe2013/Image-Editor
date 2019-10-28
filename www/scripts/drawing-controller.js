@@ -6,11 +6,13 @@ export default new function () {
 	 * @param  {JSON} point2 The end point of the line.
 	 * @param  {String} color  The color of the line.
 	 */
-	this.drawLine = function (canvas, point1, point2, color) {
+	this.drawLine = function (canvas, point1, point2, color, stroke) {
 		let context = canvas.getContext('2d');
 		context.globalCompositeOperation = 'source-over';
 
 		context.beginPath();
+
+		context.lineWidth = stroke;
 
 		context.moveTo(point1.x, point1.y);
 		context.lineTo(point2.x, point2.y);
@@ -30,11 +32,13 @@ export default new function () {
 	 * @param  {JSON} point1 The start point of the line
 	 * @param  {JSON} point2 The end point of the line.
 	 */
-	this.eraseLine = function (canvas, point1, point2) {
+	this.eraseLine = function (canvas, point1, point2, stroke) {
 		let context = canvas.getContext('2d');
 		context.globalCompositeOperation = 'destination-out';
 
 		context.beginPath();
+
+		context.lineWidth = stroke;
 
 		context.moveTo(point1.x, point1.y);
 		context.lineTo(point2.x, point2.y);
