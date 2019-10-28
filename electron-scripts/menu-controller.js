@@ -35,11 +35,8 @@ module.exports = new function () {
 			this._win, {
 				'title': 'Select file',
 				'filters': [{
-					name: 'Picture Object for Editing',
-					extensions: ['poe']
-				}, {
-					name: 'Image File',
-					extensions: ['png', 'jpg']
+					name: 'Supported Files',
+					extensions: ['poe', 'png', 'jpg']
 				}]
 			}
 		).then((file) => {
