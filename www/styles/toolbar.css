@@ -21,3 +21,18 @@
 .tool-icon:not(.active) {
 	cursor: pointer;
 }
+
+.tool-icon[data-tool='pencil'] {
+	background-image: url(../images/tool-icons/pencil.png);
+
+	background-position: center;
+    background-size: contain;
+}
+
+
+.tool-icon[data-tool='eraser'] {
+	background-image: url(../images/tool-icons/eraser.png);
+
+	background-position: center;
+    background-size: contain;
+}
