@@ -74,8 +74,8 @@ export default function () {
 
 	/**
 	 * Changes the layer location by the given amounts.
-	 * @param  {[type]} dx The amount to move in the X direction.
-	 * @param  {[type]} dy The amount to move in the Y direction.
+	 * @param  {Number} dx The amount to move in the X direction.
+	 * @param  {Number} dy The amount to move in the Y direction.
 	 */
 	this.pan = function (dx, dy) {
 		this._left += dx;
