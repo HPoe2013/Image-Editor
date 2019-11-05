@@ -34,7 +34,7 @@ export default function () {
 
 		if (Array.isArray(data)) {
 			for (let i = 1; i < data.length; i++) {
-				_addLayer.call(this, data[i])
+				_addLayer.call(this, data[i]);
 			};
 		}
 	};
@@ -53,7 +53,7 @@ export default function () {
 		newCanvas.style.transform = this._activeLayer.style.transform;
 		newCanvas.style.zIndex = this._nextInd;
 
-		if (img != null && img instanceof HTMLImageElement) {
+		if (img != null && img instanceof window.HTMLImageElement) {
 			newCanvas.getContext('2d').drawImage(img, 0, 0);
 		}
 
