@@ -35,6 +35,7 @@ module.exports = () => {
 				{
 					label: 'Export File..',
 					role: 'export',
+					id: 'exportItem',
 					click () { Emitter.emit('export-file'); }
 				},
 				{ type: 'separator' },
