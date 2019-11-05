@@ -11,13 +11,12 @@ app.on('ready', () => {
 	mainWindow = new BrowserWindow({
 		width: 1400,
 		height: 1050,
-		// icon: path.join(__dirname, '/images/ampco-icon.png'),
 		webPreferences: {
 			preload: path.join(__dirname, 'electron-scripts', 'preload.js')
 		}
 	});
 
-	mainWindow.setTitle('Schematic Update Tool');
+	mainWindow.setTitle('Image Editor');
 	mainWindow.loadURL(`file://${__dirname}/dist/www/index.html`);
 
 	mainWindow.toggleDevTools();
