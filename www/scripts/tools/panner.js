@@ -4,14 +4,14 @@ export default {
 		this._active = true;
 
 		this._lastMouseCoord = {
-			x: e.offsetX,
-			y: e.offsetY
+			x: e.clientX,
+			y: e.clientY
 		};
 	},
 	mousemove: function (e) {
 		if (!this._active) return;
 
-		let currCoords = { x: e.offsetX, y: e.offsetY };
+		let currCoords = { x: e.clientX, y: e.clientY };
 
 		let dx = currCoords.x - this._lastMouseCoord.x;
 		let dy = currCoords.y - this._lastMouseCoord.y;
