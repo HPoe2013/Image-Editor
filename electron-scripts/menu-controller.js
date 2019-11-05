@@ -10,6 +10,7 @@ module.exports = new function () {
 		Menu.setApplicationMenu(Menu.buildFromTemplate(MenuTemplate(win)));
 		this._win = win;
 		this.disableItemById('saveItem');
+		this.disableItemById('exportItem');
 	};
 
 	this.disableItemById = function (id) {
@@ -42,6 +43,7 @@ module.exports = new function () {
 		).then((file) => {
 			if (file != null) {
 				this.enableItemById('saveItem');
+				this.enableItemById('exportItem');
 				this._win.webContents.send('file-open', file);
 			}
 		});
@@ -66,6 +68,7 @@ module.exports = new function () {
 
 	Emitter.on('new-file', () => {
 		this.enableItemById('saveItem');
+		this.enableItemById('exportItem');
 		this._win.webContents.send('new-file');
 	});
 
