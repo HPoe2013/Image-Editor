@@ -66,6 +66,8 @@ export default function () {
 		this._frame.prepend(newCanvas);
 		this._controls.querySelector('#layer-display').prepend(newLayer);
 
+		newLayer.innerHTML = 'Layer ' + this._nextInd;
+
 		_setActiveLayer.call(this, newCanvas);
 
 		this._nextInd++;
