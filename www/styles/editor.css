@@ -36,7 +36,7 @@
 	left: 0;
 	top: 0;
 
-	height: 90%;
+	height: 85%;
 	width: 400px;
 
 	overflow-y: scroll;
@@ -52,9 +52,25 @@
 }
 
 #layer-controls #controls {
-	height: 10%;
+	height: 15%;
 
 	position: absolute;
 	bottom: 0;
 	left: 0;
+}
+
+#controls #add-layer {
+	height: 100%;
+	width: 30px;
+
+	background-color: green;
+	color: white;
+
+	text-align: center;
+	font-size: 30px;
+	line-height: 30px;
+
+	cursor: pointer;
+
+	border-radius: 20px;
 }
