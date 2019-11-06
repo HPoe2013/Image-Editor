@@ -30,6 +30,8 @@ export default function () {
 
 		window.addEventListener('keydown', _handleKeyDown.bind(this));
 		window.addEventListener('keyup', _handleKeyUp.bind(this));
+
+		window.addEventListener('wheel', _handleWheel.bind(this));
 	};
 
 	/**
@@ -79,6 +81,17 @@ export default function () {
 	 */
 	let _handleMouseUp = function (e) {
 		ToolKit[this._tool].mouseup.call(this, e);
+	};
+
+	let _handleWheel = function (e) {
+		let index = this._downKeys.findIndex((key) => {
+			return key.indexOf('Alt') !== -1;
+		});
+
+		if (index === -1) return;
+
+		let mult = e.deltaY > 0 ? -1 : 1;
+		this._panZoom.zoom(mult);
 	};
 
 	_ctor.apply(this, arguments);
