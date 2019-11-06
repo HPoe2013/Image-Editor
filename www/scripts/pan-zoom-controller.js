@@ -1,5 +1,10 @@
 /** Controller for panning and zooming the layers. */
 export default function () {
+	this._ZOOM_AMT = 0.05;
+
+	this._MIN_ZOOM = 0.05;
+	this._MAX_ZOOM = 5;
+
 	this._frame = null;		// The pan-zoom frame to which to bind.
 
 	this._height = null;	// The height of the canvas.
@@ -7,6 +12,9 @@ export default function () {
 
 	this._top = 0;			// The current top coordinate of the schematic.
 	this._left = 0;			// The current left coordinate of teh schematic.
+
+	this._scale = 1;
+	this._canScale = null;
 
 	/**
 	 * Constructor for pan-zoom controller.
@@ -72,7 +80,13 @@ export default function () {
 			canvas.style.transform = 'scale(#)'.replace('#', scale / 100);
 		});
 
-		this._scaleDisplay.innerHTML = scale + '%';
+		this._canScale = scale;
+
+		_updateScaleDisplay.call(this);
+	};
+
+	let _updateScaleDisplay = function () {
+		this._scaleDisplay.innerHTML = Math.round(this._scale * this._canScale) + '%';
 	};
 
 	/**
@@ -85,6 +99,17 @@ export default function () {
 		this._top += dy;
 
 		_updatePos.call(this);
+	};
+
+	this.zoom = function (multiplier) {
+		this._scale += this._ZOOM_AMT * multiplier;
+
+		this._scale = Math.min(this._MAX_ZOOM, this._scale);
+		this._scale = Math.max(this._MIN_ZOOM, this._scale);
+
+		this._frame.style.transform = 'scale(#)'.replace('#', this._scale);
+
+		_updateScaleDisplay.call(this);
 	};
 
 	_ctor.apply(this, arguments);
