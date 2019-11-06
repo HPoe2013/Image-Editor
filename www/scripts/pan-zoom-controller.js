@@ -19,6 +19,9 @@ export default function () {
 		this._height = dim.height;
 		this._width = dim.width;
 
+		this._frame.style.height = dim.height + 'px';
+		this._frame.style.width = dim.width + 'px';
+
 		this._scaleDisplay = frame.parentNode.querySelector('#scale');
 
 		_resize.call(this);
