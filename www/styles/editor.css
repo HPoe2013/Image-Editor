@@ -29,6 +29,7 @@
 
 	height: 200px;
 	width: 400px;
+	z-index: 100000;
 }
 
 #layer-display {
