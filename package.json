@@ -4,7 +4,7 @@
   "description": "Little project to edit images.",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/.bin/mocha",
     "start": "./node_modules/.bin/electron .",
     "build-dev": "bash ./build/build-dev.sh",
 	"wbuild-dev": "cd build && win-build-dev.bat"
@@ -16,6 +16,9 @@
     "babel-loader": "^7.1.5",
     "electron": "^6.0.12",
     "electron-packager": "^14.0.6",
+    "jsdom": "^15.2.1",
+    "mocha": "^6.2.2",
+    "sinon": "^7.5.0",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9"
   },
