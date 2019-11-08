@@ -1,7 +1,7 @@
-import DrawController from '../drawing-controller';
-import Toolbox from '../toolbox';
+const DrawController = require('../drawing-controller');
+const Toolbox = require('../toolbox');
 /** Set of functions for the eraser tool */
-export default {
+module.exports = {
 	params: {
 		'stroke': {
 			default: 5,

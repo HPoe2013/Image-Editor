@@ -1,5 +1,5 @@
 /** Set of functions for the panning tool */
-export default {
+module.exports = {
 	mousedown: function (e) {
 		this._active = true;
 

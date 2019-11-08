@@ -1,8 +1,8 @@
-import Toolbox from '../toolbox';
-import DrawController from '../drawing-controller';
+const DrawController = require('../drawing-controller');
+const Toolbox = require('../toolbox');
 
 /** Set of functions for the pencil tool */
-export default {
+module.exports = {
 	params: {
 		'stroke': {
 			default: 5,

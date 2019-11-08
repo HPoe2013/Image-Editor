@@ -1,7 +1,7 @@
-import ToolKit from './tools/toolkit';
+const ToolKit = require('./tools/toolkit');
 
 /** Class to handle the toolbar on the front end. */
-export default new function () {
+module.exports = new function () {
 	this._toolbox = null;	// DOM Node housing the tool selection.
 	this._colorBox = null;	// DOM Node housing color selection.
 

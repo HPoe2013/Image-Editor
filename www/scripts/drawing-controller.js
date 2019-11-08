@@ -1,4 +1,4 @@
-export default new function () {
+module.exports = new function () {
 	/**
 	 * Draws a line on the given canvas using the given data.
 	 * @param  {Canvas} canvas The canvas to which to draw.
