@@ -9,28 +9,29 @@ module.exports = new function () {
 	 * Function to select a tool for use.
 	 * @param  {DOM Node} selTool The node for the selected tool
 	 */
-	let _activateTool = function (selTool) {
+	this._activateTool = function (selTool) {
 		// TODO: Save current param settings in order to reload them on tool selection?
 
 		let activeTools = this._toolbox.querySelectorAll('.active');
+
 		Array.prototype.forEach.call(activeTools, (tool) => {
 			tool.classList.remove('active');
 		});
 
 		selTool.classList.add('active');
 
-		_setupParams.call(this, selTool.dataset.tool);
+		this._setupParams(selTool.dataset.tool);
 	};
 
 	/**
 	 * Handler for when a tool is clicked.
 	 * @param  {Event} e The triggering event.
 	 */
-	let _handleToolClick = function (e) {
-		_activateTool.call(this, e.target);
+	this._handleToolClick = function (e) {
+		this._activateTool(e.target);
 	};
 
-	let _setupParams = function (tool) {
+	this._setupParams = function (tool) {
 		this._currToolParams = ToolKit[tool].params;
 
 		if (this._currToolParams == null) {
@@ -53,18 +54,18 @@ module.exports = new function () {
 
 	/** Initialization function to set up toolbar. */
 	this.init = function () {
-		this._toolbox = document.querySelector('#toolbar #tools');
-		this._colorBox = document.querySelector('#toolbar #colors');
-		this._toolParamBox = document.querySelector('#toolbar #tool-params');
+		this._toolbox = window.document.querySelector('#toolbar #tools');
+		this._colorBox = window.document.querySelector('#toolbar #colors');
+		this._toolParamBox = window.document.querySelector('#toolbar #tool-params');
 
 		this._toolbox.parentNode.classList.remove('hidden');
 
 		let tools = this._toolbox.querySelectorAll('.tool-icon');
 		Array.prototype.forEach.call(tools, (tool) => {
-			tool.addEventListener('click', _handleToolClick.bind(this));
+			tool.addEventListener('click', this._handleToolClick.bind(this));
 		});
 
-		_activateTool.call(this, tools[0]);
+		this._activateTool(tools[0]);
 	};
 
 	/**
