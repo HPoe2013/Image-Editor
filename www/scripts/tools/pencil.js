@@ -1,9 +1,8 @@
 const DrawController = require('../drawing-controller');
-const Toolbox = require('../toolbox');
+const Tool = require('../tool');
 
-/** Set of functions for the pencil tool */
-module.exports = {
-	params: {
+let Pencil = new function () {
+	let params = {
 		'stroke': {
 			default: 5,
 			init: function (displayNode, data) {
@@ -11,28 +10,35 @@ module.exports = {
 				input.value = data.default;
 			}
 		}
-	},
-	mousedown: function (e) {
+	};
+
+	Tool.call(this, 'pencil', params);
+
+	this.mousedown = function (toolbox, e) {
 		this._active = true;
 
 		this._lastMouseCoord = {
 			x: e.offsetX,
 			y: e.offsetY
 		};
-	},
-	mousemove: function (e) {
+	};
+
+	this.mousemove = function (toolbox, e) {
 		if (!this._active) return;
 
-		let color = Toolbox.getMainColor();
+		let color = toolbox.getMainColor();
 
-		let stroke = Toolbox.getParamBox('stroke');
+		let stroke = toolbox.getParamBox('stroke');
 		stroke = stroke.querySelector('input').value;
 
 		let currCoords = { x: e.offsetX, y: e.offsetY };
 		DrawController.drawLine(this._layers.getActiveCanvas(), this._lastMouseCoord, currCoords, color, stroke);
 		this._lastMouseCoord = currCoords;
-	},
-	mouseup: function (e) {
+	};
+
+	this.mouseup = function () {
 		this._active = false;
-	}
-};
+	};
+}();
+
+module.exports = Pencil;

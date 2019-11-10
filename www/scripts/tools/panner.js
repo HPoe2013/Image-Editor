@@ -1,14 +1,14 @@
-/** Set of functions for the panning tool */
-module.exports = {
-	mousedown: function (e) {
+let Panner = new function () {
+	this.mousedown = function (toolbox, e) {
 		this._active = true;
 
 		this._lastMouseCoord = {
 			x: e.clientX,
 			y: e.clientY
 		};
-	},
-	mousemove: function (e) {
+	};
+
+	this.mousemove = function (toolbox, e) {
 		if (!this._active) return;
 
 		let currCoords = { x: e.clientX, y: e.clientY };
@@ -19,8 +19,11 @@ module.exports = {
 		this._panZoom.pan(dx, dy);
 
 		this._lastMouseCoord = currCoords;
-	},
-	mouseup: function (e) {
+	};
+
+	this.mouseup = function (toolbox, e) {
 		this._active = false;
-	}
-};
+	};
+}();
+
+module.exports = Panner;
