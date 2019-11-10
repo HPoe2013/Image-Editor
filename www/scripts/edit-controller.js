@@ -1,9 +1,9 @@
-import PanZoomController from './pan-zoom-controller';
-import ActionHandler from './action-handler';
-import LayerController from './layer-controller';
+const PanZoomController = require('./pan-zoom-controller');
+const ActionHandler = require('./action-handler');
+const LayerController = require('./layer-controller');
 
 /** Class to control the editor window. */
-export default function () {
+let EditController = function () {
 	this._pane = null;	// DOM element for the editor pane.
 
 	/**
@@ -149,3 +149,5 @@ export default function () {
 
 	_ctor.apply(this, arguments);
 };
+
+module.exports = EditController;

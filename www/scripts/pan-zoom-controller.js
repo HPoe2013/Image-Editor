@@ -1,5 +1,5 @@
 /** Controller for panning and zooming the layers. */
-export default function () {
+let PanZoomController = function () {
 	this._ZOOM_AMT = 0.05;
 
 	this._MIN_ZOOM = 0.05;
@@ -114,3 +114,5 @@ export default function () {
 
 	_ctor.apply(this, arguments);
 };
+
+module.exports = PanZoomController;

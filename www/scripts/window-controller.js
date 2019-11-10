@@ -2,7 +2,7 @@ const EditController = require('./edit-controller');
 const Toolbox = require('./toolbox');
 
 /** Class to control the window related functions and drive the app. */
-module.exports = new function () {
+let WindowController = new function () {
 	this._welcomePane = null;	// DOM element containing the "welcome" page.
 	this._editorPane = null;	// DOM element containing the first "editor" panel.
 
@@ -58,3 +58,5 @@ module.exports = new function () {
 		});
 	}.bind(this));
 }();
+
+module.exports = WindowController;

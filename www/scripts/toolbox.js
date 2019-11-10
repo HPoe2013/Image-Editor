@@ -1,7 +1,7 @@
 const ToolKit = require('./tools/toolkit');
 
 /** Class to handle the toolbar on the front end. */
-module.exports = new function () {
+let Toolbox = new function () {
 	this._toolbox = null;	// DOM Node housing the tool selection.
 	this._colorBox = null;	// DOM Node housing color selection.
 
@@ -89,3 +89,5 @@ module.exports = new function () {
 		return this._toolParamBox.querySelector('[data-prop="' + prop + '"]');
 	};
 }();
+
+module.exports = Toolbox;

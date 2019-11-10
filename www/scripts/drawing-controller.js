@@ -1,4 +1,4 @@
-module.exports = new function () {
+let DrawingController = new function () {
 	/**
 	 * Draws a line on the given canvas using the given data.
 	 * @param  {Canvas} canvas The canvas to which to draw.
@@ -52,3 +52,5 @@ module.exports = new function () {
 		context.closePath();
 	};
 }();
+
+module.exports = DrawingController;

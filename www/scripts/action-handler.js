@@ -1,8 +1,8 @@
-import Toolbox from './toolbox';
-import ToolKit from './tools/toolkit';
+const Toolbox = require('./toolbox');
+const ToolKit = require('./tools/toolkit');
 
 /** Class to handle user actions on the editor pane. */
-export default function () {
+let ActionHandler = function () {
 	this._frame = null;				// The pan-zoom-frame of the editor panel to which this is linked.
 	this._panZoom = null;			// The pan-zoom controller for the pan-zoom-frame.
 	this._layers = null;			// The layer controller for this editor window.
@@ -96,3 +96,5 @@ export default function () {
 
 	_ctor.apply(this, arguments);
 };
+
+module.exports = ActionHandler;

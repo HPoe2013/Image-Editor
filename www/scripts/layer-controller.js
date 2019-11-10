@@ -1,5 +1,5 @@
 /** Class to control the layer system. */
-export default function () {
+let LayerController = function () {
 	this._frame = null;			// The pan zoom frame in which in the canvases live.
 	this._activeLayer = null;	// The currently active canvas.
 
@@ -104,3 +104,5 @@ export default function () {
 
 	_ctor.apply(this, arguments);
 };
+
+module.exports = LayerController;
