@@ -14,7 +14,7 @@ describe('Toolkit', () => {
 
 			if (name === 'toolkit') return;
 
-			if (toolkit[name] == null) assert.fail(toolkit[name], name, "Tool was undefined");
+			if (toolkit[name] == null) assert.fail(toolkit[name], name, 'Tool was undefined');
 		});
 	});
 });

@@ -1,4 +1,4 @@
-/* global describe, it */
+/* global describe, it, beforeEach, afterEach */
 
 const assert = require('assert');
 const sinon = require('sinon');
@@ -6,7 +6,6 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
 const toolbox = require('../www/scripts/toolbox');
-
 
 beforeEach(() => {
 	global.window = new JSDOM(`
@@ -71,7 +70,7 @@ describe('Toolbox', () => {
 	});
 
 	describe('getMainColor', () => {
-		it ('Gets the current main color', () => {
+		it('Gets the current main color', () => {
 			let color = toolbox.getMainColor();
 			assert.equal(color, '#000000');
 		});
@@ -104,7 +103,8 @@ describe('Toolbox', () => {
 			testEle = {
 				classList: {
 					add: sinon.stub()
-				}, dataset: {
+				},
+				dataset: {
 					tool: 'test'
 				}
 			};
@@ -115,26 +115,26 @@ describe('Toolbox', () => {
 			testEle = null;
 		});
 
-		it ('Activates the given element', () => {
+		it('Activates the given element', () => {
 			toolbox._activateTool(testEle);
 
 			assert(testEle.classList.add.calledOnce);
 			assert.equal(testEle.classList.add.getCall(0).args[0], 'active');
 		});
 
-		it ('Deactivates other tools', () => {
+		it('Deactivates other tools', () => {
+			// Activate with test ele to disable other tools.
 			toolbox._activateTool(testEle);
-			let active = window.document.querySelectorAll('.active');
 
 			// Should throw exception due to no active tool.
 			assert.throws(toolbox.getActiveTool, TypeError, "Cannot read property 'dataset' of null");
 		});
 
-		it ('Calls to _setupParams.', () => {
+		it('Calls to _setupParams.', () => {
 			toolbox._activateTool(testEle);
 
 			assert(setupStub.called);
-			assert.equal(setupStub.getCall(0).args[0], 'test')
+			assert.equal(setupStub.getCall(0).args[0], 'test');
 		});
 	});
 
