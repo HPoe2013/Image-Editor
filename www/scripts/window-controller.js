@@ -1,8 +1,8 @@
-import EditController from './edit-controller';
-import Toolbox from './toolbox';
+const EditController = require('./edit-controller');
+const Toolbox = require('./toolbox');
 
 /** Class to control the window related functions and drive the app. */
-export default new function () {
+module.exports = new function () {
 	this._welcomePane = null;	// DOM element containing the "welcome" page.
 	this._editorPane = null;	// DOM element containing the first "editor" panel.
 
