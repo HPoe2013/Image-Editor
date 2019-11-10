@@ -6,6 +6,7 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
 const toolbox = require('../www/scripts/toolbox');
+const ToolKit = require('../www/scripts/tools/toolkit');
 
 beforeEach(() => {
 	global.window = new JSDOM(`
@@ -18,7 +19,8 @@ beforeEach(() => {
 		<input id='main' type='color' value='#000000' />
 		</div>
 		<div id='tool-params' data-test='6'>
-			<div data-prop='test' data-test='7'></div>
+			<div class='prop' data-prop='test' data-test='7'></div>
+			<div class='prop'  id='x' data-prop='hideMe' data-test='8'></div>
 		</div>
 		</div>
 	`).window;
@@ -158,6 +160,60 @@ describe('Toolbox', () => {
 
 			assert(activateStub.called);
 			assert.equal(activateStub.getCall(0).args[0], 'test');
+		});
+	});
+
+	describe('_setupParams', () => {
+		let stub = null;
+		let fakeInit = null;
+
+		beforeEach(() => {
+			stub = sinon.stub(ToolKit.pencil, 'getParams');
+			fakeInit = sinon.stub();
+		});
+
+		afterEach(() => {
+			stub.restore();
+		});
+
+		it('calls to get the params from the tool', () => {
+			toolbox._setupParams('pencil');
+
+			assert(stub.calledOnce);
+		});
+
+		it('hides the param box when there are no params', () => {
+			stub.returns(null);
+
+			toolbox._setupParams('pencil');
+
+			assert(toolbox._toolParamBox.classList.contains('hidden'));
+		});
+
+		it('calls the parameter init function', () => {
+			stub.returns({'test': {init: fakeInit}});
+
+			toolbox._setupParams('pencil');
+
+			assert(fakeInit.calledOnce);
+			assert.equal(fakeInit.getCall(0).args[0].dataset.test, '7');
+		});
+
+		it('shows the param box when there are params', () => {
+			stub.returns({'test': {init: fakeInit}});
+
+			toolbox._setupParams('pencil');
+
+			assert(!toolbox._toolParamBox.classList.contains('hidden'));
+		});
+
+		it('hides params that do not go with the current tool', () => {
+			stub.returns({'test': {init: fakeInit}});
+
+			toolbox._setupParams('pencil');
+
+			let testEle = toolbox._toolParamBox.querySelector('#x');
+			assert(testEle.classList.contains('hidden'));
 		});
 	});
 });
