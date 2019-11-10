@@ -64,7 +64,7 @@ export default function () {
 			this._tool = Toolbox.getActiveTool();
 		}
 
-		ToolKit[this._tool].mousedown.call(this, e);
+		ToolKit[this._tool].mousedown.call(this, Toolbox, e);
 	};
 
 	/**
@@ -72,7 +72,7 @@ export default function () {
 	 * @param  {MouseEvent} e The triggering event.
 	 */
 	let _handleMouseMove = function (e) {
-		if (this._active) ToolKit[this._tool].mousemove.call(this, e);
+		ToolKit[this._tool].mousemove.call(this, Toolbox, e);
 	};
 
 	/**
@@ -80,7 +80,7 @@ export default function () {
 	 * @param  {MouseEvent} e The triggering event.
 	 */
 	let _handleMouseUp = function (e) {
-		ToolKit[this._tool].mouseup.call(this, e);
+		ToolKit[this._tool].mouseup.call(this, Toolbox, e);
 	};
 
 	let _handleWheel = function (e) {

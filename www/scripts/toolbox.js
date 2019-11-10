@@ -32,9 +32,9 @@ module.exports = new function () {
 	};
 
 	this._setupParams = function (tool) {
-		this._currToolParams = ToolKit[tool].params;
+		this._currToolParams = ToolKit[tool].getParams();
 
-		if (this._currToolParams == null) {
+		if (this._currToolParams == null || Object.keys(this._currToolParams).length === 0) {
 			this._toolParamBox.classList.add('hidden');
 			return;
 		}
