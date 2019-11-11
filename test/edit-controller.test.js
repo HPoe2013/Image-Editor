@@ -214,4 +214,47 @@ describe('EditController', () => {
 			assert(ahStub.calledOnce);
 		});
 	});
+
+	describe('_openFile', () => {
+		let openedStub;
+
+		beforeEach(() => {
+			openedStub = sinon.stub(EditController.prototype, '_fileOpened');
+
+			global.window.Image = function () {
+				Object.defineProperty(this, 'onload', {
+					set: function (fn) {
+						fn();
+					}
+				});
+			};
+		});
+
+		afterEach(() => {
+			openedStub.restore();
+		});
+
+		it('loads the single image if not project', () => {
+			let editController = new EditController('pane', false, 'test');
+
+			assert(openedStub.calledOnce);
+			assert.equal(openedStub.getCall(0).args[0].src, 'test');
+		});
+
+		it('loads all layers of a project', (done) => {
+			let editController = new EditController('pane', true, {
+				layers: [
+					'test1',
+					'test2'
+				]
+			});
+
+			setTimeout(function () {
+				assert(openedStub.calledOnce);
+				assert.equal(openedStub.getCall(0).args[1][0].src, 'test1');
+				assert.equal(openedStub.getCall(0).args[1][1].src, 'test2');
+				done();
+			}, 100);
+		});
+	});
 });
