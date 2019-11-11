@@ -5,104 +5,104 @@ let LayerController = function () {
 
 	this._nextInd = 1;			// The index of the next canvas that's created.
 
-	/**
-	 * Constructor for the layer controller.
-	 * @param  {DOM Node} frame The pan-zoom frame for the layer controller.
-	 * @param  {Image[]} data  Optional extra layers to initialize with.
-	 */
-	let _ctor = function (frame, data) {
-		this._frame = frame;
+	this._ctor.apply(this, arguments);
+};
 
-		this._activeLayer = this._frame.querySelector('.layer:last-of-type');
+/**
+ * Constructor for the layer controller.
+ * @param  {DOM Node} frame The pan-zoom frame for the layer controller.
+ * @param  {Image[]} data  Optional extra layers to initialize with.
+ */
+LayerController.prototype._ctor = function (frame, data) {
+	this._frame = frame;
 
-		this._controls = this._frame.parentNode.querySelector('#layer-controls');
+	this._activeLayer = this._frame.querySelector('.layer:last-of-type');
 
-		this._controls.querySelector('#add-layer').addEventListener('click', _addLayer.bind(this));
+	this._controls = this._frame.parentNode.querySelector('#layer-controls');
 
-		this._activeLayer.style.zIndex = 0;
+	this._controls.querySelector('#add-layer').addEventListener('click', this._addLayer.bind(this));
 
-		let index = this._activeLayer.dataset.index;
+	this._activeLayer.style.zIndex = 0;
 
-		let displayLayers = this._controls.querySelectorAll('.disp-layer');
+	let index = this._activeLayer.dataset.index;
 
-		let activeDisp = Array.prototype.find.call(displayLayers, (layer) => {
-			return layer.dataset.linked === index;
-		});
+	let displayLayers = this._controls.querySelectorAll('.disp-layer');
 
-		activeDisp.classList.add('active');
-		activeDisp.addEventListener('click', _setActiveLayer.bind(this, this._activeLayer));
+	let activeDisp = Array.prototype.find.call(displayLayers, (layer) => {
+		return layer.dataset.linked === index;
+	});
 
-		if (Array.isArray(data)) {
-			for (let i = 1; i < data.length; i++) {
-				_addLayer.call(this, data[i]);
-			};
-		}
-	};
+	activeDisp.classList.add('active');
+	activeDisp.addEventListener('click', this._setActiveLayer.bind(this, this._activeLayer));
 
-	/**
-	 * Adds a new layer to the canvas.
-	 * @param  {Image} img Optional image to render to new layer.
-	 */
-	let _addLayer = function (img) {
-		let newCanvas = document.createElement('canvas');
-		newCanvas.classList.add('layer');
-		newCanvas.dataset.index = this._nextInd;
-		newCanvas.height = this._activeLayer.height;
-		newCanvas.width = this._activeLayer.width;
+	if (Array.isArray(data)) {
+		for (let i = 1; i < data.length; i++) {
+			this._addLayer(data[i]);
+		};
+	}
+};
 
-		newCanvas.style.transform = this._activeLayer.style.transform;
-		newCanvas.style.zIndex = this._nextInd;
+/**
+ * Adds a new layer to the canvas.
+ * @param  {Image} img Optional image to render to new layer.
+ */
+LayerController.prototype._addLayer = function (img) {
+	let newCanvas = document.createElement('canvas');
+	newCanvas.classList.add('layer');
+	newCanvas.dataset.index = this._nextInd;
+	newCanvas.height = this._activeLayer.height;
+	newCanvas.width = this._activeLayer.width;
 
-		if (img != null && img instanceof window.HTMLImageElement) {
-			newCanvas.getContext('2d').drawImage(img, 0, 0);
-		}
+	newCanvas.style.transform = this._activeLayer.style.transform;
+	newCanvas.style.zIndex = this._nextInd;
 
-		let newLayer = document.createElement('div');
-		newLayer.classList.add('disp-layer');
-		newLayer.dataset.linked = this._nextInd;
+	if (img != null && img instanceof window.HTMLImageElement) {
+		newCanvas.getContext('2d').drawImage(img, 0, 0);
+	}
 
-		newLayer.addEventListener('click', _setActiveLayer.bind(this, newCanvas));
+	let newLayer = document.createElement('div');
+	newLayer.classList.add('disp-layer');
+	newLayer.dataset.linked = this._nextInd;
 
-		this._frame.prepend(newCanvas);
-		this._controls.querySelector('#layer-display').prepend(newLayer);
+	newLayer.addEventListener('click', this._setActiveLayer.bind(this, newCanvas));
 
-		newLayer.innerHTML = 'Layer ' + this._nextInd;
+	this._frame.prepend(newCanvas);
+	this._controls.querySelector('#layer-display').prepend(newLayer);
 
-		_setActiveLayer.call(this, newCanvas);
+	newLayer.innerHTML = 'Layer ' + this._nextInd;
 
-		this._nextInd++;
-	};
+	this._setActiveLayer(newCanvas);
 
-	/**
-	 * Sets the active layer.
-	 * @param  {Canvas} layer The canvas to set as active.
-	 */
-	let _setActiveLayer = function (layer) {
-		this._activeLayer = layer;
+	this._nextInd++;
+};
 
-		let active = this._controls.querySelector('.disp-layer.active');
-		if (active != null) active.classList.remove('active');
+/**
+ * Sets the active layer.
+ * @param  {Canvas} layer The canvas to set as active.
+ */
+LayerController.prototype._setActiveLayer = function (layer) {
+	this._activeLayer = layer;
 
-		let index = this._activeLayer.dataset.index;
+	let active = this._controls.querySelector('.disp-layer.active');
+	if (active != null) active.classList.remove('active');
 
-		let displayLayers = this._controls.querySelectorAll('.disp-layer');
+	let index = this._activeLayer.dataset.index;
 
-		let activeDisp = Array.prototype.find.call(displayLayers, (dispLayer) => {
-			return dispLayer.dataset.linked === index;
-		});
+	let displayLayers = this._controls.querySelectorAll('.disp-layer');
 
-		activeDisp.classList.add('active');
-	};
+	let activeDisp = Array.prototype.find.call(displayLayers, (dispLayer) => {
+		return dispLayer.dataset.linked === index;
+	});
 
-	/**
-	 * Gets the currently active canvas.
-	 * @return {Canvas} The currently active canvas.
-	 */
-	this.getActiveCanvas = function () {
-		return this._activeLayer;
-	};
+	activeDisp.classList.add('active');
+};
 
-	_ctor.apply(this, arguments);
+/**
+ * Gets the currently active canvas.
+ * @return {Canvas} The currently active canvas.
+ */
+LayerController.prototype.getActiveCanvas = function () {
+	return this._activeLayer;
 };
 
 module.exports = LayerController;

@@ -16,103 +16,103 @@ let PanZoomController = function () {
 	this._scale = 1;
 	this._canScale = null;
 
-	/**
-	 * Constructor for pan-zoom controller.
-	 * @param  {DOM Node} frame The pan zoom frame to control.
-	 * @param  {JSON} dim   The initial dimensions of the image.
-	 */
-	let _ctor = function (frame, dim) {
-		this._frame = frame;
+	this._ctor.apply(this, arguments);
+};
 
-		this._height = dim.height;
-		this._width = dim.width;
+/**
+* Constructor for pan-zoom controller.
+* @param  {DOM Node} frame The pan zoom frame to control.
+* @param  {JSON} dim   The initial dimensions of the image.
+*/
+PanZoomController.prototype._ctor = function (frame, dim) {
+	this._frame = frame;
 
-		this._frame.style.height = dim.height + 'px';
-		this._frame.style.width = dim.width + 'px';
+	this._height = dim.height;
+	this._width = dim.width;
 
-		this._scaleDisplay = frame.parentNode.querySelector('#scale');
+	this._frame.style.height = dim.height + 'px';
+	this._frame.style.width = dim.width + 'px';
 
-		_resize.call(this);
-		window.addEventListener('resize', _resize.bind(this));
-	};
+	this._scaleDisplay = frame.parentNode.querySelector('#scale');
 
-	/** Helper function to recenter layers. */
-	let _recenter = function () {
-		let bounds = this._frame.getBoundingClientRect();
+	this._resize();
+	window.addEventListener('resize', this._resize.bind(this));
+};
 
-		this._top = (window.innerHeight - bounds.height) / 2;
-		this._left = (window.innerWidth - bounds.width) / 2;
+/** Helper function to recenter layers. */
+PanZoomController.prototype._recenter = function () {
+	let bounds = this._frame.getBoundingClientRect();
 
-		_updatePos.call(this);
-	};
+	this._top = (window.innerHeight - bounds.height) / 2;
+	this._left = (window.innerWidth - bounds.width) / 2;
 
-	/** Handler for resize event. Scales and re-centers canvas. */
-	let _resize = function () {
-		let bounds = this._frame.getBoundingClientRect();
+	this._updatePos();
+};
 
-		let imgR = this._width / this._height;
-		let boundsR = bounds.width / bounds.height;
+/** Handler for resize event. Scales and re-centers canvas. */
+PanZoomController.prototype._resize = function () {
+	let bounds = this._frame.getBoundingClientRect();
 
-		var scale = boundsR < imgR
-			? bounds.width / this._width
-			: bounds.height / this._height;
+	let imgR = this._width / this._height;
+	let boundsR = bounds.width / bounds.height;
 
-		scale = Math.min(scale, 1);
+	var scale = boundsR < imgR
+	? bounds.width / this._width
+	: bounds.height / this._height;
 
-		scale = Math.floor(scale * 100);
-		_updateScale.call(this, scale);
-		_recenter.call(this);
-	};
+	scale = Math.min(scale, 1);
 
-	/** Helper function to move layers to the current top and left position. */
-	let _updatePos = function () {
-		this._frame.style.top = this._top + 'px';
-		this._frame.style.left = this._left + 'px';
-	};
+	scale = Math.floor(scale * 100);
+	this._updateScale(scale);
+	this._recenter();
+};
 
-	/**
-	 * Helper function to update the scale on the layers.
-	 * @param  {Number} scale The scale value to which to set the layers.
-	 */
-	let _updateScale = function (scale) {
-		let canvases = this._frame.querySelectorAll('canvas.layer');
-		Array.prototype.forEach.call(canvases, (canvas) => {
-			canvas.style.transform = 'scale(#)'.replace('#', scale / 100);
-		});
+/** Helper function to move layers to the current top and left position. */
+PanZoomController.prototype._updatePos = function () {
+	this._frame.style.top = this._top + 'px';
+	this._frame.style.left = this._left + 'px';
+};
 
-		this._canScale = scale;
+/**
+* Helper function to update the scale on the layers.
+* @param  {Number} scale The scale value to which to set the layers.
+*/
+PanZoomController.prototype._updateScale = function (scale) {
+	let canvases = this._frame.querySelectorAll('canvas.layer');
+	Array.prototype.forEach.call(canvases, (canvas) => {
+		canvas.style.transform = 'scale(#)'.replace('#', scale / 100);
+	});
 
-		_updateScaleDisplay.call(this);
-	};
+	this._canScale = scale;
 
-	let _updateScaleDisplay = function () {
-		this._scaleDisplay.innerHTML = Math.round(this._scale * this._canScale) + '%';
-	};
+	this._updateScaleDisplay();
+};
 
-	/**
-	 * Changes the layer location by the given amounts.
-	 * @param  {Number} dx The amount to move in the X direction.
-	 * @param  {Number} dy The amount to move in the Y direction.
-	 */
-	this.pan = function (dx, dy) {
-		this._left += dx;
-		this._top += dy;
+PanZoomController.prototype._updateScaleDisplay = function () {
+	this._scaleDisplay.innerHTML = Math.round(this._scale * this._canScale) + '%';
+};
 
-		_updatePos.call(this);
-	};
+/**
+* Changes the layer location by the given amounts.
+* @param  {Number} dx The amount to move in the X direction.
+* @param  {Number} dy The amount to move in the Y direction.
+*/
+PanZoomController.prototype.pan = function (dx, dy) {
+	this._left += dx;
+	this._top += dy;
 
-	this.zoom = function (multiplier) {
-		this._scale += this._ZOOM_AMT * multiplier;
+	this._updatePos();
+};
 
-		this._scale = Math.min(this._MAX_ZOOM, this._scale);
-		this._scale = Math.max(this._MIN_ZOOM, this._scale);
+PanZoomController.prototype.zoom = function (multiplier) {
+	this._scale += this._ZOOM_AMT * multiplier;
 
-		this._frame.style.transform = 'scale(#)'.replace('#', this._scale);
+	this._scale = Math.min(this._MAX_ZOOM, this._scale);
+	this._scale = Math.max(this._MIN_ZOOM, this._scale);
 
-		_updateScaleDisplay.call(this);
-	};
+	this._frame.style.transform = 'scale(#)'.replace('#', this._scale);
 
-	_ctor.apply(this, arguments);
+	this._updateScaleDisplay();
 };
 
 module.exports = PanZoomController;

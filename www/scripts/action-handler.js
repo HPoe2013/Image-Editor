@@ -13,88 +13,88 @@ let ActionHandler = function () {
 
 	this._lastMouseCoord = null;	// Reference to the last mouse event's coordinates.
 
-	/**
-	 * Constructor for the action handler.
-	 * @param  {DOM Node} frame       The pan-zoom-frame of the editor window.
-	 * @param  {PanZoomController} panZoomCtrl The pan-zoom controller for the editor window.
-	 * @param  {LayerController} layerCtrl   The layer controller for the editor window.
-	 */
-	let _ctor = function (frame, panZoomCtrl, layerCtrl) {
-		this._frame = frame;
-		this._panZoom = panZoomCtrl;
-		this._layers = layerCtrl;
+	this._ctor.apply(this, arguments);
+};
 
-		this._frame.addEventListener('mousedown', _handleMouseDown.bind(this));
-		this._frame.addEventListener('mousemove', _handleMouseMove.bind(this));
-		this._frame.addEventListener('mouseup', _handleMouseUp.bind(this));
+/**
+ * Constructor for the action handler.
+ * @param  {DOM Node} frame       The pan-zoom-frame of the editor window.
+ * @param  {PanZoomController} panZoomCtrl The pan-zoom controller for the editor window.
+ * @param  {LayerController} layerCtrl   The layer controller for the editor window.
+ */
+ActionHandler.prototype._ctor = function (frame, panZoomCtrl, layerCtrl) {
+	this._frame = frame;
+	this._panZoom = panZoomCtrl;
+	this._layers = layerCtrl;
 
-		window.addEventListener('keydown', _handleKeyDown.bind(this));
-		window.addEventListener('keyup', _handleKeyUp.bind(this));
+	this._frame.addEventListener('mousedown', this._handleMouseDown.bind(this));
+	this._frame.addEventListener('mousemove', this._handleMouseMove.bind(this));
+	this._frame.addEventListener('mouseup', this._handleMouseUp.bind(this));
 
-		window.addEventListener('wheel', _handleWheel.bind(this));
-	};
+	window.addEventListener('keydown', this._handleKeyDown.bind(this));
+	window.addEventListener('keyup', this._handleKeyUp.bind(this));
 
-	/**
-	 * Handler for key down event to add it to down keys array.
-	 * @param  {KeyboardEvent} e The triggering event.
-	 */
-	let _handleKeyDown = function (e) {
-		if (this._downKeys.indexOf(e.code) === -1) {
-			this._downKeys.push(e.code);
-		}
-	};
+	window.addEventListener('wheel', this._handleWheel.bind(this));
+};
 
-	/**
-	 * Handler for key up event to remove it from the down keys array.
-	 * @param  {KeyboardEvent} e The triggering event.
-	 */
-	let _handleKeyUp = function (e) {
-		let index = this._downKeys.indexOf(e.code);
-		if (index !== -1) this._downKeys.splice(index, 1);
-	};
+/**
+ * Handler for key down event to add it to down keys array.
+ * @param  {KeyboardEvent} e The triggering event.
+ */
+ActionHandler.prototype._handleKeyDown = function (e) {
+	if (this._downKeys.indexOf(e.code) === -1) {
+		this._downKeys.push(e.code);
+	}
+};
 
-	/**
-	 * Handler for the mouse down event, activates tool
-	 * @param  {MouseEvent} e The triggering event.
-	 */
-	let _handleMouseDown = function (e) {
-		if (this._downKeys.indexOf('Space') !== -1) {
-			this._tool = 'panner';
-		} else {
-			this._tool = Toolbox.getActiveTool();
-		}
+/**
+ * Handler for key up event to remove it from the down keys array.
+ * @param  {KeyboardEvent} e The triggering event.
+ */
+ActionHandler.prototype._handleKeyUp = function (e) {
+	let index = this._downKeys.indexOf(e.code);
+	if (index !== -1) this._downKeys.splice(index, 1);
+};
 
-		ToolKit[this._tool].mousedown.call(this, Toolbox, e);
-	};
+/**
+ * Handler for the mouse down event, activates tool
+ * @param  {MouseEvent} e The triggering event.
+ */
+ActionHandler.prototype._handleMouseDown = function (e) {
+	if (this._downKeys.indexOf('Space') !== -1) {
+		this._tool = 'panner';
+	} else {
+		this._tool = Toolbox.getActiveTool();
+	}
 
-	/**
-	 * Handler for the mouse move event, calls to tool
-	 * @param  {MouseEvent} e The triggering event.
-	 */
-	let _handleMouseMove = function (e) {
-		ToolKit[this._tool].mousemove.call(this, Toolbox, e);
-	};
+	ToolKit[this._tool].mousedown.call(this, Toolbox, e);
+};
 
-	/**
-	 * Handler for the mouse up event, deactivates tool
-	 * @param  {MouseEvent} e The triggering event.
-	 */
-	let _handleMouseUp = function (e) {
-		ToolKit[this._tool].mouseup.call(this, Toolbox, e);
-	};
+/**
+ * Handler for the mouse move event, calls to tool
+ * @param  {MouseEvent} e The triggering event.
+ */
+ActionHandler.prototype._handleMouseMove = function (e) {
+	ToolKit[this._tool].mousemove.call(this, Toolbox, e);
+};
 
-	let _handleWheel = function (e) {
-		let index = this._downKeys.findIndex((key) => {
-			return key.indexOf('Alt') !== -1;
-		});
+/**
+ * Handler for the mouse up event, deactivates tool
+ * @param  {MouseEvent} e The triggering event.
+ */
+ActionHandler.prototype._handleMouseUp = function (e) {
+	ToolKit[this._tool].mouseup.call(this, Toolbox, e);
+};
 
-		if (index === -1) return;
+ActionHandler.prototype._handleWheel = function (e) {
+	let index = this._downKeys.findIndex((key) => {
+		return key.indexOf('Alt') !== -1;
+	});
 
-		let mult = e.deltaY > 0 ? -1 : 1;
-		this._panZoom.zoom(mult);
-	};
+	if (index === -1) return;
 
-	_ctor.apply(this, arguments);
+	let mult = e.deltaY > 0 ? -1 : 1;
+	this._panZoom.zoom(mult);
 };
 
 module.exports = ActionHandler;
