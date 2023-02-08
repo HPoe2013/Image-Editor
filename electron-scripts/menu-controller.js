@@ -1,6 +1,5 @@
 const { Menu, ipcMain } = require('electron');
 const MenuTemplate = require('./menu-template');
-const FileController = require('./file-controller');
 const Emitter = require('./events');
 
 module.exports = new function () {
@@ -10,7 +9,6 @@ module.exports = new function () {
 		Menu.setApplicationMenu(Menu.buildFromTemplate(MenuTemplate(win)));
 		this._win = win;
 		this.disableItemById('saveItem');
-		this.disableItemById('exportItem');
 	};
 
 	this.disableItemById = function (id) {
@@ -33,47 +31,16 @@ module.exports = new function () {
 
 	Emitter.on('open-file', () => {
 		this.enableItemById('saveItem');
-		this.enableItemById('exportItem');
 		this._win.webContents.send('file-open');
 	});
 
 	Emitter.on('save-file', () => {
-		FileController.saveDialog(
-			this._win,
-			{
-				'title': 'Save file',
-				'filters': [{
-					name: 'Picture Object for Editing',
-					extensions: ['poe']
-				}]
-			}
-		).then((file) => {
-			if (file != null) {
-				this._win.webContents.send('save-file-named', file);
-			}
-		});
+		this.enableItemById('saveItem');
+		this._win.webContents.send('save-file-named');
 	});
 
 	Emitter.on('new-file', () => {
 		this.enableItemById('saveItem');
-		this.enableItemById('exportItem');
 		this._win.webContents.send('new-file');
-	});
-
-	Emitter.on('export-file', () => {
-		FileController.saveDialog(
-			this._win,
-			{
-				'title': 'Save file',
-				'filters': [{
-					name: 'Image File',
-					extensions: ['png']
-				}]
-			}
-		).then((file) => {
-			if (file != null) {
-				this._win.webContents.send('export-file-named', { file, export: true });
-			}
-		});
 	});
 }();

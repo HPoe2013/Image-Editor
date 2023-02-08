@@ -109,6 +109,7 @@ EditController.prototype._openFile = function (isProj, data) {
  */
 EditController.prototype._saveFile = function (e) {
 	let toWrite = null;
+
 	if (e.detail.export) {
 		// If exporting, flatten layers.
 		let layers = this._pane.querySelectorAll('canvas.layer');
@@ -124,30 +125,13 @@ EditController.prototype._saveFile = function (e) {
 		}
 
 		toWrite = outCanvas.toDataURL();
+
+		let downloadLink = document.querySelector('#file-download-link');
+		downloadLink.href = toWrite;
+		downloadLink.click();
 	} else {
-		// If not exporting (project file), build project data.
-		let layers = this._pane.querySelectorAll('canvas.layer');
-		toWrite = {
-			canvasDim: {},
-			layers: []
-		};
-
-		Array.prototype.forEach.call(layers, layer => {
-			toWrite.canvasDim.height = layer.height;
-			toWrite.canvasDim.width = layer.width;
-			toWrite.layers[layer.dataset.index] = layer.toDataURL();
-		});
+		alert('project files not currently supported');
 	}
-
-	// Send the save file event with file name and data to write.
-	window.dispatchEvent(new window.CustomEvent(
-		'save-file', {
-			detail: {
-				file: e.detail.file,
-				data: toWrite
-			}
-		}
-	));
 };
 
 module.exports = EditController;

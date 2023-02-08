@@ -10,8 +10,8 @@ ipcRenderer.on('save-file-named', (evt, file) => {
 	window.dispatchEvent(new window.CustomEvent(
 		'save-file-named', {
 			detail: {
-				file: file,
-				export: false
+				file: 'export.png',
+				export: true
 			}
 		}
 	));
