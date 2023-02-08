@@ -1,5 +1,5 @@
-const DrawController = require('../drawing-controller');
-const Tool = require('../tool');
+ const DrawController = require('../drawing-controller');
+const Tool = require('./tool');
 
 let Pencil = new function () {
 	let params = {

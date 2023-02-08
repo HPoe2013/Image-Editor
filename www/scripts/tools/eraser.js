@@ -1,5 +1,5 @@
 const DrawController = require('../drawing-controller');
-const Tool = require('../tool');
+const Tool = require('./tool');
 
 let Eraser = new function () {
 	let params = {
