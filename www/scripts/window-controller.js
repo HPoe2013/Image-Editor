@@ -38,12 +38,24 @@ let WindowController = new function () {
 	};
 
 	/** Listener for file open event from middleware. */
-	window.addEventListener('file-open', function (e) {
+	window.addEventListener('file-open', function () {
 		_isReady.call(this).then(() => {
-			this._welcomePane.classList.add('hidden');
-			this._editorPane.classList.remove('hidden');
-			this._editor = new EditController(this._editorPane, e.detail.isProj, e.detail.file);
-			Toolbox.init();
+			let fileInput = document.getElementById('file-upload-input');
+			fileInput.onchange = function () {
+				if (fileInput.files[0] == null) return;
+
+				this._welcomePane.classList.add('hidden');
+				this._editorPane.classList.remove('hidden');
+				this._editor = new EditController(
+					this._editorPane,
+					false,
+					fileInput.files[0].path
+				);
+
+				Toolbox.init();
+			}.bind(this);
+
+			fileInput.click();
 		});
 	}.bind(this));
 

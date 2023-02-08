@@ -1,10 +1,8 @@
 const { ipcRenderer } = require('electron');
 
-ipcRenderer.on('file-open', (event, data) => {
+ipcRenderer.on('file-open', () => {
 	window.dispatchEvent(new window.CustomEvent(
-		'file-open', {
-			detail: data
-		}
+		'file-open'
 	));
 });
 

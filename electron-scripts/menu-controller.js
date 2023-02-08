@@ -32,21 +32,9 @@ module.exports = new function () {
 	});
 
 	Emitter.on('open-file', () => {
-		FileController.openDialog(
-			this._win, {
-				'title': 'Select file',
-				'filters': [{
-					name: 'Supported Files',
-					extensions: ['poe', 'png', 'jpg']
-				}]
-			}
-		).then((file) => {
-			if (file != null) {
-				this.enableItemById('saveItem');
-				this.enableItemById('exportItem');
-				this._win.webContents.send('file-open', file);
-			}
-		});
+		this.enableItemById('saveItem');
+		this.enableItemById('exportItem');
+		this._win.webContents.send('file-open');
 	});
 
 	Emitter.on('save-file', () => {
