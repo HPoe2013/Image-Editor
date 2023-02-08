@@ -7,22 +7,22 @@
     "test": "./node_modules/.bin/mocha",
     "start": "./node_modules/.bin/electron .",
     "build-dev": "bash ./build/build-dev.sh",
-	"wbuild-dev": "cd build && win-build-dev.bat"
+    "wbuild-dev": "cd build && win-build-dev.bat"
   },
-  "author": "Quentin 'Poe' Caffero",
+  "author": "Heather Poe",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
-    "electron": "^9.1.0",
+    "babel-loader": "^9.1.2",
+    "electron": "^22.2.0",
     "electron-packager": "^14.0.6",
-    "jsdom": "^15.2.1",
-    "mocha": "^6.2.2",
+    "jsdom": "^21.1.0",
+    "mocha": "^10.2.0",
     "sinon": "^7.5.0",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9"
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   },
   "dependencies": {
-    "bson": "^4.0.2"
+    "bson": "^5.0.0"
   }
 }
