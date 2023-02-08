@@ -13,9 +13,10 @@ describe('Toolkit', () => {
 		toolFiles.forEach(tool => {
 			let name = tool.split('.')[0];
 
-			if (ignoredFiles.indexOf(name) != -1) return;
-
-			if (toolkit[name] == null) assert.fail('Tool was undefined');
+			if (ignoredFiles.indexOf(name) != -1 || toolkit[name] != null) 
+				return;
+			
+			assert.fail('Tool was undefined');
 		});
 	});
 });
