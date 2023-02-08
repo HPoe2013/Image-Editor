@@ -8,13 +8,14 @@ const toolkit = require('../www/scripts/tools/toolkit.js');
 describe('Toolkit', () => {
 	it('Has all the tools', () => {
 		let toolFiles = fs.readdirSync('./www/scripts/tools');
+		let ignoredFiles = ['toolkit', 'tool'];
 
 		toolFiles.forEach(tool => {
 			let name = tool.split('.')[0];
 
-			if (name === 'toolkit') return;
+			if (ignoredFiles.indexOf(name) != -1) return;
 
-			if (toolkit[name] == null) assert.fail(toolkit[name], name, 'Tool was undefined');
+			if (toolkit[name] == null) assert.fail('Tool was undefined');
 		});
 	});
 });
