@@ -75,6 +75,8 @@ ActionHandler.prototype._handleMouseDown = function (e) {
  * @param  {MouseEvent} e The triggering event.
  */
 ActionHandler.prototype._handleMouseMove = function (e) {
+	if (ToolKit[this._tool] == null) return;
+
 	ToolKit[this._tool].mousemove.call(this, Toolbox, e);
 };
 
