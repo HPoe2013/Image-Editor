@@ -8,7 +8,7 @@ build_toolkit_file () {
 	echo "// GENERATED SCRIPT" > ./www/scripts/tools/toolkit.js;
 
 	for file in ./www/scripts/tools/*; do
-		if [ $(basename "$file") != "toolkit.js" ] ; then
+		if [ $(basename "$file") != "toolkit.js" -a $(basename "$file") != "tool.js" ] ; then
 			filename=$(basename "$file" .js);
 			exStr+="$filename, "
 			echo "const $filename = require('./$filename');" >> ./www/scripts/tools/toolkit.js;
