@@ -29,4 +29,4 @@ npm start
 
 ## Author
 
-* **Quentin Caffero** - [Github](https://github.com/Cafferoq)
+* **Heather Poe** - [Github](https://github.com/Cafferoq)
